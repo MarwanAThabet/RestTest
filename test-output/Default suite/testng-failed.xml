@@ -3,11 +3,11 @@
 <suite guice-stage="DEVELOPMENT" name="Failed suite [Default suite]">
   <test thread-count="5" name="Default test(failed)">
     <classes>
-      <class name="tests.SecondAPITest">
+      <class name="tests.FourthAPITestAddingDeleting">
         <methods>
           <include name="testGoogleGetPlaceAPI"/>
         </methods>
-      </class> <!-- tests.SecondAPITest -->
+      </class> <!-- tests.FourthAPITestAddingDeleting -->
     </classes>
   </test> <!-- Default test(failed) -->
 </suite> <!-- Failed suite [Default suite] -->

@@ -1,21 +1,37 @@
 package tests;
 
-import org.testng.annotations.Test;
-
+import org.testng.annotations.*;
 import io.restassured.RestAssured;
 import io.restassured.http.ContentType;
 import io.restassured.path.json.JsonPath;
 import io.restassured.response.Response;
+import pageobjects.Resources;
 
 import static io.restassured.RestAssured.*;
 import static org.hamcrest.Matchers.*;
 
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.util.Properties;
+
 
 public class SecondAPITest {
+	Properties property = new Properties();
+	
+
+	@BeforeTest 
+	public void fetchData() throws IOException {
+		//localDir will point to the user current project directory
+		String localDir = System.getProperty("user.dir");
+		FileInputStream fis = new FileInputStream(localDir+"\\src\\test\\resources\\testdata\\env.properties");
+		property.load(fis);
+	}
 	@Test
   public void testGoogleGetPlaceAPI() {		
 		//BaseURL
-	  RestAssured.baseURI="https://jsonplaceholder.typicode.com";
+	  RestAssured.baseURI=property.getProperty("SPAREHOST");
+
 		//Response Holder
 	  Response rawresponse =
 	    //Parameters
@@ -23,7 +39,7 @@ public class SecondAPITest {
 		  param("userId","1").
 		//Resources  
 	  when().
-	  	get("/comments").	  
+	  	get(Resources.placeGETData()).	  
 	  	
 	  	
 	  	//Asserting on Response Code
@@ -51,7 +67,7 @@ public class SecondAPITest {
 		
 		//Converting the streamed response into a json structured
 		JsonPath jsonformat = new JsonPath(stringresponse);
-		String thridemail = jsonformat.get("email[2]"); 
+		String thridemail = jsonformat.get("email[1]"); 
 		//now you can pass this value into any future requests as a parameter
 		//Or insert it inside it inside a body of a POST request using +thridemail+
 		System.out.println(thridemail);
